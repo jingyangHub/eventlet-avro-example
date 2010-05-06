@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import optparse
+import time
+
 import avro.ipc
 
 import protocol
@@ -9,13 +11,19 @@ HOST = '127.0.0.1'
 PORT = 8130
 
 def send_echo(client, query):
+    start = time.time()
     requestor = avro.ipc.Requestor(protocol.EchoProtocol, client)
     print '>>> Echo: %s' % requestor.request('echo', {'query' : query})
+    finish = time.time()
+    print '(took %s)' % (finish - start)
     return 0
 
 def send_split(client, query):
+    start = time.time()
     requestor = avro.ipc.Requestor(protocol.EchoProtocol, client)
     print '>>> Split: %s' % requestor.request('split', {'query' : query})
+    finish = time.time()
+    print '(took %s)' % (finish - start)
     return 0
 
 def main():
